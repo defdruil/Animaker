@@ -1,0 +1,74 @@
+<ul class="nav flex-column custom-left-navbar">
+  <h2>Imports</h2>
+  <li class="nav-item">
+    <label id="spriteSheetInputLabel" class="custom-file margin-bottom" for="spriteSheetInput">
+      <span class="custom-file-control">
+        <button id="spriteSheetInputButton" [ngClass]="{'btn-outline-danger': !isSpriteSheetLoaded(), 'btn-outline-success': isSpriteSheetLoaded()  }"
+          (click)="click(spriteSheetInput);" type="button" class="btn">
+          <span *ngIf="isSpriteSheetLoaded();">File : {{spriteSheetFileName}}</span>
+          <span *ngIf="!isSpriteSheetLoaded();">Importez le SpriteSheet...</span>
+        </button>
+      </span>
+      <input id="spriteSheetInput" #spriteSheetInput class="custom-file-input" (change)="setSpriteSheetFile();" type="file" accept="image/*"
+        name="spriteSheetInput" />
+    </label>
+    <label id="jsonInputLabel" class="custom-file" for="jsonInput">
+      <span class="custom-file-control">
+        <button id="jsonInputButton" [ngClass]="{'btn-outline-danger': !isJsonLoaded(), 'btn-outline-success': isJsonLoaded()  }"
+          (click)="click(jsonInput);" type="button" class="btn btn-outline-primary">
+          <span *ngIf="isJsonLoaded();">File : {{jsonFileName}}</span>
+          <span *ngIf="!isJsonLoaded();">Importez le Json...</span>
+        </button>
+      </span>
+    </label>
+    <input id="jsonInput" #jsonInput class="custom-file-input" (change)="setJsonFile();" type="file" accept=".json" name="jsonInput"
+    />
+  </li>
+  <li *ngIf="isJsonLoaded();" class="nav-item">
+    <form>
+      <div class="form-group row">
+        <label for="smFormGroupInput" class="col-sm-2 col-form-label col-form-label-sm">ID</label>
+        <div class="col-sm-10">
+          <input (input)="updateJson();" [(ngModel)]="animationDataService.animationData.ID" [ngModelOptions]="{standalone: true}" type="text" class="form-control form-control-sm"
+            id="ID" placeholder="ID">
+        </div>
+      </div>
+      <ul class="nav">
+        <li *ngFor="let animation of animationDataService.animationData.animations">
+          <h6>Animation</h6>
+          <input (input)="updateJson();" [(ngModel)]="animation.name" [ngModelOptions]="{standalone: true}" type="text" placeholder="Animation Name" />
+          <select (change)="updateJson();" [(ngModel)]="animation.autoRun" [ngModelOptions]="{standalone: true}">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          <select (change)="updateJson();" [(ngModel)]="animation.loop" [ngModelOptions]="{standalone: true}">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          <input (input)="updateJson();" [(ngModel)]="animation.defaultInterval" [ngModelOptions]="{standalone: true}" type="number" placeholder="Default Interval"
+          />
+          <ul class="nav">
+            <li *ngFor="let frame of animation.timeline">
+                <input (input)="updateJson();" [(ngModel)]="frame.frame" [ngModelOptions]="{standalone: true}" type="number" placeholder="Frame"
+                />
+                <input (input)="updateJson();" [(ngModel)]="frame.interval" [ngModelOptions]="{standalone: true}" type="number" placeholder="Interval"
+          />
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </form>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Item 3</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Item 4</a>
+  </li>
+</ul>
+<div class="col">
+  <canvas #canvas></canvas>
+</div>
+<div class="col">
+  {{json}}
+</div>
