@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AnimationDataService } from './animation-data.service';
+import { Texture } from 'pixi.js';
 
 // Injection decorator
 @Injectable({
@@ -8,7 +9,8 @@ import { AnimationDataService } from './animation-data.service';
 export class CanvaManagerService {
   // Private properties
   private ID: number;
-  private stage: PIXI.DisplayObject;
+  private stage: PIXI.Container;
+  private spriteSheet: PIXI.Sprite = new PIXI.Sprite();
 
   // Public properties
 
@@ -19,9 +21,15 @@ export class CanvaManagerService {
   ) {
   }
 
+  // Update
+  public update(): void {
+
+  }
+
   // Setter for stage initialisation
-  public setStage(stage: PIXI.DisplayObject): void {
+  public setStage(stage: PIXI.Container): void {
     this.stage = stage;
+    this.stage.addChild(this.spriteSheet);
     this.ID = 1;
   }
 
@@ -30,8 +38,8 @@ export class CanvaManagerService {
     return this.stage;
   }
 
-  // Update
-  public update(): void {
-
+  // Setter for Image
+  public setSpriteSheet(image: string): void {
+    this.spriteSheet.texture = PIXI.Texture.fromImage(image);
   }
 }

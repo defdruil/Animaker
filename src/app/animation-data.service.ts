@@ -56,6 +56,10 @@ export class AnimationDataService {
     }
   }
 
+  public moveAnimationTo(index: number) {
+
+  }
+
   /*
   ** Adds a new Timeline,
   ** Returns True and adds it if a Frame exists.
@@ -72,10 +76,14 @@ export class AnimationDataService {
       return true;
   }
 
-  public removeTimeline(animation: Animation, timeline: Frame) {
-    const index = this.animationData.animations.indexOf(animation);
-    if (index !== -1) {
-      this.animationData.animations[index].timeline.splice(index, 1);
+  public removeTimeline(animation: Animation, frame: Frame) {
+    console.log(animation, frame);
+    const indexAnimation = this.animationData.animations.indexOf(animation);
+    if (indexAnimation !== -1) {
+      const indexTimeline = this.animationData.animations[indexAnimation].timeline.indexOf(frame);
+      if (indexTimeline !== -1) {
+        this.animationData.animations[indexAnimation].timeline.splice(indexTimeline, 1);
+      }
     }
   }
 

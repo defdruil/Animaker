@@ -47,27 +47,22 @@ export class MainCanvasComponent implements AfterViewInit {
 
     // Initialization
     this.animationDataService.animationData = new AnimationData();
-
-    // Test
-    this.testCanvas();
   }
 
   // Update Json Object
-  public updateJson(): void {
+  public UpdateJson(): void {
     this.json = this.animationDataService.getJson();
-    this.canvaManagerService.update();
-    console.log(this.json);
   }
 
-  // Testing for Canvas
-  public testCanvas(): void {
-    for (let i = 0; i < 10; i++) {
-      const g = new PIXI.Graphics();
-      g.beginFill(0xFF0000);
-      g.drawRect(i * 100, i * 100, 100, 100);
-      g.endFill();
-      this.app.stage.addChild(g);
-    }
+  // Update the Canvas Object
+  public updateCanvas(): void {
+    this.canvaManagerService.update();
+  }
+
+  // Updates every visible end component
+  public UpdateAll(): void {
+    this.UpdateJson();
+    this.updateCanvas();
   }
 
   // Function called when SpriteSheetInput changed is called
@@ -79,8 +74,8 @@ export class MainCanvasComponent implements AfterViewInit {
 
     // Reading the file
     this.animationDataService.animationData.spritesheet = this.getFileImageContent(file, function (event: any): any {
-      this.spriteSheet = event.target.result;
-      // console.log(this.src);
+      this.canvaManagerService.setSpriteSheet(event.target.result);
+      console.log(this.canvaManagerService.image);
     });
     this.spriteSheetFileName = this.animationDataService.animationData.spritesheet;
     this.animationDataService.initialize(this.spriteSheetFileName);
@@ -93,7 +88,7 @@ export class MainCanvasComponent implements AfterViewInit {
     file = this.jsonFiles[0];
     this.jsonFileName = this.getFileTextContent(file, function (event: any): any {
       this.animationDataService.animationData = JSON.parse(event.target.result);
-      this.updateJson();
+      this.UpdateAll();
     });
   }
 
@@ -170,6 +165,17 @@ export class MainCanvasComponent implements AfterViewInit {
       } else {
         object.click();
       }
+    }
+  }
+
+  // Testing for Canvas
+  public testCanvas(): void {
+    for (let i = 0; i < 10; i++) {
+      const g = new PIXI.Graphics();
+      g.beginFill(0xFF0000);
+      g.drawRect(i * 100, i * 100, 100, 100);
+      g.endFill();
+      this.app.stage.addChild(g);
     }
   }
 }

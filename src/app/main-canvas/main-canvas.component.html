@@ -9,7 +9,7 @@
           <span *ngIf="!isSpriteSheetLoaded();">Importez le SpriteSheet...</span>
         </button>
       </span>
-      <input id="spriteSheetInput" #spriteSheetInput class="custom-file-input" (change)="setSpriteSheetFile();" type="file" accept="image/*"
+      <input id="spriteSheetInput" #spriteSheetInput class="custom-file-input" (change)="setSpriteSheetFile();" type="file" accept="image/png"
         name="spriteSheetInput" />
     </label>
     <label id="jsonInputLabel" class="custom-file" for="jsonInput">
@@ -29,30 +29,33 @@
       <div class="form-group row">
         <label for="smFormGroupInput" class="col-sm-2 col-form-label col-form-label-sm">ID</label>
         <div class="col-sm-10">
-          <input (input)="updateJson();" [(ngModel)]="animationDataService.animationData.ID" [ngModelOptions]="{standalone: true}" type="text" class="form-control form-control-sm"
-            id="ID" placeholder="ID">
+          <input (input)="UpdateAll();" [(ngModel)]="animationDataService.animationData.ID" [ngModelOptions]="{standalone: true}" type="text"
+            class="form-control form-control-sm" id="ID" placeholder="ID">
         </div>
       </div>
       <ul class="nav">
         <li *ngFor="let animation of animationDataService.animationData.animations">
           <h6>Animation</h6>
-          <input (input)="updateJson();" [(ngModel)]="animation.name" [ngModelOptions]="{standalone: true}" type="text" placeholder="Animation Name" />
-          <select (change)="updateJson();" [(ngModel)]="animation.autoRun" [ngModelOptions]="{standalone: true}">
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-          <select (change)="updateJson();" [(ngModel)]="animation.loop" [ngModelOptions]="{standalone: true}">
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-          <input (input)="updateJson();" [(ngModel)]="animation.defaultInterval" [ngModelOptions]="{standalone: true}" type="number" placeholder="Default Interval"
+          <input (input)="UpdateAll();" [(ngModel)]="animation.name" [ngModelOptions]="{standalone: true}" type="text" placeholder="Animation Name"
           />
-          <ul class="nav">
+          <select (change)="UpdateAll();" [(ngModel)]="animation.autoRun" [ngModelOptions]="{standalone: true}">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          <select (change)="UpdateAll();" [(ngModel)]="animation.loop" [ngModelOptions]="{standalone: true}">
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+          <input (input)="UpdateAll();" [(ngModel)]="animation.defaultInterval" [ngModelOptions]="{standalone: true}" type="number"
+            placeholder="Default Interval" />
+          <ul class="nav card card-body">
+            <button (click)="animationDataService.addTimeline(animation);" class="btn btn-success btn-sm">+</button>
             <li *ngFor="let frame of animation.timeline">
-                <input (input)="updateJson();" [(ngModel)]="frame.frame" [ngModelOptions]="{standalone: true}" type="number" placeholder="Frame"
-                />
-                <input (input)="updateJson();" [(ngModel)]="frame.interval" [ngModelOptions]="{standalone: true}" type="number" placeholder="Interval"
-          />
+              <input (input)="UpdateAll();" [(ngModel)]="frame.frame" [ngModelOptions]="{standalone: true}" type="number" placeholder="Frame"
+              />
+              <input (input)="UpdateAll();" [(ngModel)]="frame.interval" [ngModelOptions]="{standalone: true}" type="number" placeholder="Interval"
+              />
+              <button (click)="animationDataService.removeTimeline(animation, frame);" class="btn btn-danger btn-sm">X</button>
             </li>
           </ul>
         </li>
@@ -70,5 +73,13 @@
   <canvas #canvas></canvas>
 </div>
 <div class="col">
-  {{json}}
+  <div class="row">
+
+  </div>
+  <div class="row">
+        
+  </div>
+  <div class="row">
+    {{json}}
+  </div>
 </div>
